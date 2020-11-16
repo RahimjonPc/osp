@@ -1,0 +1,160 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru"><!-- Basic -->
+<head>
+	<meta charset="utf-8">
+  
+   
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+     <!-- Site Metas -->
+    <title>Yamifood Restaurant - Responsive HTML5 Template</title> 
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{% static 'images/apple-touch-icon.png' %}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">    
+	<!-- Site CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">    
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+	<!-- Start header -->
+
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<div class="container">
+				<a class="navbar-brand" href="index.html">
+					<img src="{% static 'images/logo.png' %}" alt="" />
+				</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-rs-food" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+				  <span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbars-rs-food">
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+        <div class="container">
+            <h1 class="mt-4">Admin panel</h1>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-light" data-toggle="modal" data-target="#exampleModal">
+                Add new food
+            </button>
+
+            {% if messages %}
+                {% for m in messages %} 
+                <div class="alert alert-success">
+                    {{ m }}
+                </div> 
+                {% endfor %}
+            {% endif %}
+    
+
+            {% if edit %}
+                <h4 class="mt-4">Edit</h4>
+                {% if success_edit %}
+                <h4 class="mt-4 text-danger mt-4">Successfully edited</h4>
+                {% endif %}
+                <a class="btn btn-light" href="{% url 'create' %}">Back</a>
+
+                <form id="edit_form" method="post">
+                    {% csrf_token %}    
+                    {{ form }}
+                </form>
+                <button form="edit_form" type="submit" class="btn btn-light mt-4">Edit</button>
+            {% else %}    
+            
+            <table class="table table-bordered mt-4">
+                <thead>
+                <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for food in list_food %}
+                <tr>
+                    <th scope="row">{{ food.id }}</th>
+                    <td>{{ food.name }} - {{ food.author }}</td>
+                    
+                    <td>
+                        {% if request.user == food.author %}
+                        <a href="{% url 'edit' food.id %}">edit</a>
+                        {% else %}
+                        No access
+                        {% endif %}
+                    </td>
+                    <td><a href="{% url 'delete' food.id %}">delete</a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>    
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                <form id="add_form" method="post">
+                    {% csrf_token %}    
+                    {{ form }}
+                </form>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button form="add_form" type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </div>
+            </div>
+        </div>	
+    
+
+	
+
+    
+
+
+	<!-- ALL JS FILES -->
+	<script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+	<script src="{% static 'js/popper.min.js' %}"></script>
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+ 
+	<script src="{% static 'js/jquery.superslides.min.js' %}"></script>
+	<script src="{% static 'js/images-loded.min.js' %}"></script>
+	<script src="{% static 'js/isotope.min.js' %}"></script>
+	<script src="{% static 'js/baguetteBox.min.js' %}"></script>
+	<script src="{% static 'js/form-validator.min.js' %}"></script>
+    <script src="{% static 'js/contact-form-script.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/custom.js' %}"></script> 
+</body>
+</html>
