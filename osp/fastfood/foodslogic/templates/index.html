@@ -172,14 +172,18 @@
 				{% for food in list_food %}
 				<div class="col-lg-4 col-md-6 special-grid drinks">
 					<div class="gallery-single fix">
-						<img src="{% static 'images/img-01.jpg' %}" class="img-fluid" alt="Image">							
+						{% if food.poster  %}
+						<img src="{{ food.poster.url }}" class="img-fluid" alt="Image">
+						{% else %}
+						<img src="" class="img-fluid" alt="Image">
+						{% endif %}						
 						<div class="why-text">
 							<h4>{{ food.name }} - {{ food.author }}</h4>
 							<p>{{ food.description }}</p>
 							<h5>{{ food.price }}</h5>	
 						</div>
 					</div>
-					<a class="btn btn-warning" href="/order/{{ food.id }}">Order</a>
+					<a class="btn btn-warning" href="{% url 'foods:order' food.id %}">Order</a>
 				</div>
 				{% endfor %}
 			</div>		

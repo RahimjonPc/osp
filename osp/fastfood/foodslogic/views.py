@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Comments
 from foods.models import Foods
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from django.views.generic.edit import FormMixin 
 from foods.forms import CommentForm
 from .forms import FoodsForm, AuthUserForm, RegisterUserForm
@@ -13,10 +13,12 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class HomeListView(ListView):
-    model = Foods
-    template_name = 'index.html'
-    context_object_name =  'list_food'
+class HomeListView(View):
+    # model = Foods
+    # template_name = 'index.html'
+    # context_object_name =  'list_food'
+    def get(self, request):
+        return render(template_name='index.html', request=request, context={"list_food": Foods.objects.all()})
 
 
 class CustomsuccessMessageMixin:
